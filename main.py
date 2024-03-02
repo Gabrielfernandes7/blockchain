@@ -33,7 +33,7 @@ class Blockchain:
         new_block.hash = new_block.calculate_hash()
         self.chain.append(new_block)
 
-    def is_valid(self):
+    def is_valid(self) -> bool:
         for i in range(1, len(self.chain)):
             current_block = self.chain[i]
             previous_block = self.chain[i-1]
@@ -43,3 +43,39 @@ class Blockchain:
             if current_block.previous_hash != previous_block.hash:
                 return False
             return True
+
+my_blockchain = Blockchain()
+
+compra1 = {
+    "item": "Nitro 5 - Accer",
+    "valor": 1000.0,
+    "comprador": "@gabriel.fernandes.7",
+    "vendedor": "@vendedor"
+}
+
+documento = {
+    "item": "Algo importante",
+    "valor_pago": 1000.0,
+    "comprador": "@gabriel.fernandes.7"
+}
+
+my_blockchain.add_block(
+    Block(1, date.datetime.now(), compra1, my_blockchain.chain[-1].hash)
+)
+
+my_blockchain.add_block(
+    Block(2, date.datetime.now(), documento, my_blockchain.chain[-1].hash)
+)
+
+print(f"Essa blockchain é válida? {str(my_blockchain.is_valid())}")
+
+def print_blockchain(chain):
+    for block in chain:
+        print(f"Block: {block.index}")
+        print(f"Timestamp: {block.timestamp}")
+        print(f"Dados salvos: {block.data}")
+        print(f"Hash: {block.hash}")
+        print(f"Hash do bloco anterior: {block.previous_hash}")
+        print(20*"---------")
+
+print(print_blockchain(my_blockchain.chain))
